@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import Loading from '../components/layout/Loading'
 import RepoList from '../components/repos/RepoList'
 import GithubContext from '../context/github/GithubContext'
-import {getUser, getUserRepos} from '../context/github/GithubActions'
+import {getUserAndRepos} from '../context/github/GithubActions'
 
 
 function User() {
@@ -13,14 +13,11 @@ function User() {
 
   const params = useParams()
 
-  useEffect( () => {
-    dispatch({type: 'SET_LOADING'})
-    const getUserData = async() => {
-      const userData = await getUser(params.login)
-      dispatch({type: 'GET_USER', payload: userData})
-
-      const userRepoData = await getUserRepos(params.login)
-      dispatch({type: 'GET_REPOS', payload: userRepoData})
+  useEffect(() => {
+    dispatch({ type: 'SET_LOADING' })
+    const getUserData = async () => {
+      const userData = await getUserAndRepos(params.login)
+      dispatch({ type: 'GET_USER_AND_REPOS', payload: userData })
     }
 
     getUserData()
